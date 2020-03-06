@@ -50,7 +50,7 @@ def train_batch(batch_x, batch_y, ctx, net, trainer, loss, metrics):
     data = gluon.utils.split_and_load(batch_x, ctx)
     label = gluon.utils.split_and_load(batch_y, ctx)
     # compute gradient
-    with gluon.autograd.record():
+    with mx.autograd.record():
         preds = [net(X) for X in data]
         losses = [loss(pred, Y) for pred, Y in zip(preds, label)]
     for l in losses:
@@ -71,7 +71,7 @@ def train(net, args):
     save_path += '%s/'%args.model_name
     if os.path.exists(os.path.join(current_dir, save_path)) == False:
         os.mkdir(os.path.join(current_dir, save_path))
-    logger = Logger(save_path + 'logs/')
+    # logger = Logger(save_path + 'logs/')
 
     train_file_path, val_file_path, data_dir, label_dir = get_dataset_path(args.dataset)
     classes = get_dataset_classes(args.dataset)
@@ -89,7 +89,7 @@ def train(net, args):
     net.collect_params().initialize(ctx=ctx)
     net.load_base_model(ctx)
     #net.hybridize()
-    #print(net)
+    print(net)
 
     num_sample = dataloader.get_num_sample()
     num_steps = num_sample//args.batch_size
@@ -128,10 +128,10 @@ def train(net, args):
                 info += ' | %s: %.3f'%(name, value)
             progress_bar(i, num_steps, info)
         # write logs for this epoch
-        logger.scalar_summary('loss', train_loss/num_steps, epoch)
+        # logger.scalar_summary('loss', train_loss/num_steps, epoch)
         for m in metrics:
             name, value = m.get()
-            logger.scalar_summary(name, value, epoch)
+            # logger.scalar_summary(name, value, epoch)
         mx.nd.waitall()
         net.save_params(save_path+'checkpoint.params')
 

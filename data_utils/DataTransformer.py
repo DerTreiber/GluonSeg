@@ -300,8 +300,8 @@ if __name__ == '__main__':
                  fill_mode='constant', cval=0., label_cval=255,
                  data_format='channels_last', color_format='RGB',
                  x_dtype=np.float32)
-    data_dir        = '/home/aurora/Learning/Data/VOC2012/JPEGImages'
-    label_dir       = '/home/aurora/Learning/Data/VOC2012/SegmentationClass'
+    data_dir        = os.path.join(os.path.expanduser("~"),  '.mxnet/datasets/voc/VOC2012/JPEGImages')
+    label_dir       = os.path.join(os.path.expanduser("~"),  '.mxnet/datasets/voc/VOC2012/SegmentationClass')
     img_x = Image.open(os.path.join(data_dir, '2007_000033.jpg'))
     img_y = Image.open(os.path.join(label_dir, '2007_000033.png'))
     x, y = transformer.transform(img_x, img_y)

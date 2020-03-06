@@ -81,6 +81,7 @@ def inference(net, args, image_names, return_results=True, save_dir=None):
             results.append(result_img)
         if save_dir:
             result_img.save(os.path.join(save_dir, name + '.png'))
+        result_img.save(name+'_pred.png')
     return results
 
 

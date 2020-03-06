@@ -13,10 +13,12 @@ class ResNet50_16s(HybridBlock):
             self.resnet = get_resnet(1, num_layers=50, pretrained=False, remove_subsample=1)
 
             self.classifier = nn.Conv2D(classes, kernel_size=(1, 1), weight_initializer=mx.init.Xavier())
-            #self.classifier.collect_params().setattr('lr_mult', 10)
+            self.classifier.collect_params().setattr('lr_mult', 10)
 
+            ### look here
             self.upsampler = nn.Conv2DTranspose(channels=classes, kernel_size=32, strides=16, padding=8,
-                                                groups=classes, use_bias=False, weight_initializer=mx.init.Bilinear())
+                                                # groups=classes, use_bias=False, weight_initializer=mx.init.Bilinear())
+                                                groups=classes, use_bias=True)
             self.upsampler.collect_params().setattr('lr_mult', 0.)
 
     def hybrid_forward(self, F, x):
@@ -28,4 +30,4 @@ class ResNet50_16s(HybridBlock):
 
     def load_base_model(self, ctx):
         from mxnet.gluon.model_zoo.model_store import get_model_file
-        self.resnet.load_params(get_model_file('resnet50_v1'), ctx=ctx, allow_missing=False, ignore_extra=True)
+        self.resnet.load_params(get_model_file('resnet50_v1'), ctx=ctx, allow_missing=True, ignore_extra=True)

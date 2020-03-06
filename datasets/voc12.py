@@ -40,9 +40,9 @@ if __name__ == '__main__':
                  fill_mode='constant', cval=0., label_cval=255,
                  data_format='channels_first', color_format='RGB',
                  x_dtype=np.float32)
-    data_dir        = '/home/aurora/Learning/Data/VOC2012/JPEGImages'
-    label_dir       = '/home/aurora/Learning/Data/VOC2012/SegmentationClass'
-    val_file_path   = '/home/aurora/Learning/Data/VOC2012/ImageSets/Segmentation/val.txt'
+    data_dir        = '/home/jt529748/.mxnet/datasets/voc/VOC2012/JPEGImages'
+    label_dir       = '/home/jt529748/.mxnet/datasets/voc/VOC2012/SegmentationClass'
+    val_file_path   = '/home/jt529748/.mxnet/datasets/voc/VOC2012/ImageSets/Segmentation/val.txt'
     dataloader = VOC12(data_list_file=val_file_path, data_source_dir=data_dir,
                        label_source_dir=label_dir, data_transformer=transformer,
                        batch_size=1, shuffle=True)
