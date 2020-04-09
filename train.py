@@ -57,6 +57,14 @@ def train_batch(batch_x, batch_y, ctx, net, trainer, loss, metrics):
         l.backward()
     # update parameters
     trainer.step(len(data))
+    # print(len(preds))
+    # print('pred 0 shape', preds[0][0].shape)
+    # print('pred 0 0: ', preds[0][0].dtype)
+    # print('pred 0 0: ', preds[0][0])
+
+    # print('pred single entry value: ', preds[0][0][0][0][0])
+    # print('pred single entry type: ', type(preds[0][0][0][0][0]))
+    # print('loss', losses[0])
     for m in metrics:
         m.update(labels=label, preds=preds)
     return losses
@@ -87,9 +95,12 @@ def train(net, args):
     ctx = [gpu(i) for i in args.gpus]
     net = net(classes)
     net.collect_params().initialize(ctx=ctx)
-    net.load_base_model(ctx)
-    #net.hybridize()
+    # net.load_base_model(ctx)
+    net.hybridize()
     print(net)
+    if os.path.isfile('results/{}/{}/checkpoint.params'.format(args.dataset, args.model_name)):
+        print('load params')
+        net.load_parameters('results/{}/{}/checkpoint.params'.format(args.dataset, args.model_name))
 
     num_sample = dataloader.get_num_sample()
     num_steps = num_sample//args.batch_size

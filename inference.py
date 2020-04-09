@@ -81,7 +81,8 @@ def inference(net, args, image_names, return_results=True, save_dir=None):
             results.append(result_img)
         if save_dir:
             result_img.save(os.path.join(save_dir, name + '.png'))
-        result_img.save(name+'_pred.png')
+        result_img.save(name + '_pred.png')
+        print('Saved to: ' + name + '_pred.png')
     return results
 
 
@@ -90,5 +91,6 @@ if __name__ == '__main__':
     model_name = args.model_name
     net = globals()[model_name]
     results = inference(net, args, args.image_names, True)
-    for result in results:
-        result.show(title='result', command=None)
+    print('success')
+    # for result in results:
+    #     result.show(title='result', command=None)

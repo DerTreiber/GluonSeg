@@ -10,7 +10,7 @@ class ResNet50_16s(HybridBlock):
         super(ResNet50_16s, self).__init__(**kwargs)
         with self.name_scope():
             self.classes = classes
-            self.resnet = get_resnet(1, num_layers=50, pretrained=False, remove_subsample=1)
+            self.resnet = get_resnet(1, num_layers=50, pretrained=True, remove_subsample=1)
 
             self.classifier = nn.Conv2D(classes, kernel_size=(1, 1), weight_initializer=mx.init.Xavier())
             self.classifier.collect_params().setattr('lr_mult', 10)

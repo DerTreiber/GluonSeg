@@ -20,6 +20,4 @@ class MySoftmaxCrossEntropyLoss(Loss):
         loss = -(F.pick(output, label, axis=self._axis, keepdims=True) * valid_label_map )
 
         loss = _apply_weighting(F, loss, self._weight, sample_weight)
-        #return loss
-        #return F.sum(loss, axis=self._batch_axis, exclude=True) / F.sum(valid_label_map, axis=self._batch_axis, exclude=True)
         return F.sum(loss) / F.sum(valid_label_map)

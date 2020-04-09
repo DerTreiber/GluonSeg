@@ -227,5 +227,5 @@ def get_resnet(version, num_layers, ctx=None, pretrained=False, remove_subsample
     net = resnet_class(block_class, layers, channels, remove_subsample, **kwargs)
     if pretrained:
         from mxnet.gluon.model_zoo.model_store import get_model_file
-        net.load_params(get_model_file('resnet%d_v%d'%(num_layers, version)), ctx=ctx, allow_missing=False, ignore_extra=True)
+        net.load_params(get_model_file('resnet%d_v%d'%(num_layers, version)), ctx=ctx, allow_missing=True, ignore_extra=True)
     return net
